@@ -807,10 +807,11 @@ class Entities(Mapping[str, Entity]):
                 continue
             if not self._apply_now(target, item):
                 continue
+            relevant_before = self._relevant_programs()
             if target.update(item) and target not in changed:
                 changed.append(target)
             if isinstance(target, _ProgramRoot):
-                for restored in self._restore_program_scope(target):
+                for restored in self._restore_program_scope(target, relevant_before):
                     if restored not in changed:
                         changed.append(restored)
         return changed
@@ -851,10 +852,14 @@ class Entities(Mapping[str, Entity]):
         _LOGGER.debug("Not applying a change of %s for program %s", target.name, program_uid)
         return False
 
-    def _restore_program_scope(self, root: _ProgramRoot) -> list[Entity]:
-        """Apply the remembered option changes of the program `root` now points to."""
+    def _restore_program_scope(self, root: _ProgramRoot, relevant_before: set[int]) -> list[Entity]:
+        """Apply the remembered option changes of the program `root` now points to.
+
+        Only when it wasn't selected or active yet: its changes already apply otherwise, and
+        applying them again would undo anything newer, like a change without a program scope.
+        """
         program = root.program
-        if program is None:
+        if program is None or program.uid in relevant_before:
             return []
         restored: list[Entity] = []
         for uid, description in self._program_option_changes.get(program.uid, {}).items():

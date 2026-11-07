@@ -171,3 +171,27 @@ def test_option_restored_and_changed_in_one_message(entities: Entities) -> None:
 
     assert changed.count(duration) == 1
     assert duration.access is Access.READ
+
+
+def test_reported_program_again_keeps_a_newer_change(entities: Entities) -> None:
+    duration, eco, _, selected, _ = _uids(entities)
+    entities.apply([{"uid": selected, "value": eco}])
+    entities.apply([{"uid": duration.uid, "parentUID": eco, "access": "READ"}])
+    entities.apply([{"uid": duration.uid, "access": "READWRITE"}])
+
+    changed = entities.apply([{"uid": selected, "value": eco}])
+
+    assert duration not in changed
+    assert duration.access is Access.READ_WRITE
+
+
+def test_starting_the_selected_program_keeps_a_newer_change(entities: Entities) -> None:
+    duration, eco, _, selected, active = _uids(entities)
+    entities.apply([{"uid": selected, "value": eco}])
+    entities.apply([{"uid": duration.uid, "parentUID": eco, "access": "READ"}])
+    entities.apply([{"uid": duration.uid, "access": "READWRITE"}])
+
+    changed = entities.apply([{"uid": active, "value": eco}])
+
+    assert duration not in changed
+    assert duration.access is Access.READ_WRITE
