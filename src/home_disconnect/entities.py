@@ -803,7 +803,7 @@ class Entities(Mapping[str, Entity]):
                 continue
             target: Entity | Program | None = self.by_uid.get(uid) or self.programs_by_uid.get(uid)
             if target is None:
-                _LOGGER.debug("Skipping an update for unknown UID %s", uid)
+                _LOGGER.debug("Ignoring data for UID %s: it isn't in the appliance's profile", uid)
                 continue
             if not self._apply_now(target, item):
                 continue
