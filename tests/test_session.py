@@ -686,3 +686,74 @@ async def test_start_refuses_without_reconnect_or_twice(
             await session.connect()
     finally:
         await session.close()
+
+
+async def test_failed_attempts_go_to_the_connect_error_callback(
+    client_session: aiohttp.ClientSession,
+    appliance: FakeAppliance,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    # A rejected key keeps failing in the background; the caller needs to see why to ask for a
+    # new key instead of retrying forever.
+    monkeypatch.setattr(session_module, "RECONNECT_INITIAL_DELAY", 0.01)
+    errors: list[Exception] = []
+    two_failures = asyncio.Event()
+    wanted = 2
+
+    async def on_error(err: Exception) -> None:
+        errors.append(err)
+        if len(errors) >= wanted:
+            two_failures.set()
+
+    appliance.psk = bytes(32)
+    session = make_session(client_session, appliance, on_connect_error=on_error)
+    await session.start()
+    try:
+        await asyncio.wait_for(two_failures.wait(), 5)
+        assert all(isinstance(err, AuthenticationError) for err in errors)
+        assert session.state is ConnectionState.RECONNECTING
+    finally:
+        await session.close()
+
+
+async def test_connect_error_callback_errors_dont_stop_reconnecting(
+    client_session: aiohttp.ClientSession,
+    appliance: FakeAppliance,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(session_module, "RECONNECT_INITIAL_DELAY", 0.01)
+    connected = asyncio.Event()
+
+    async def on_error(err: Exception) -> None:
+        appliance.accepting = True
+        raise RuntimeError(err)
+
+    async def on_state(state: ConnectionState) -> None:
+        if state is ConnectionState.CONNECTED:
+            connected.set()
+
+    appliance.accepting = False
+    session = make_session(
+        client_session, appliance, on_connect_error=on_error, on_state_change=on_state
+    )
+    await session.start()
+    try:
+        await asyncio.wait_for(connected.wait(), 5)
+    finally:
+        await session.close()
+
+
+async def test_connect_raises_instead_of_calling_the_connect_error_callback(
+    client_session: aiohttp.ClientSession, appliance: FakeAppliance
+) -> None:
+    errors: list[Exception] = []
+
+    async def on_error(err: Exception) -> None:
+        errors.append(err)
+
+    appliance.psk = bytes(32)
+    session = make_session(client_session, appliance, on_connect_error=on_error)
+    with pytest.raises(AuthenticationError):
+        await session.connect()
+    assert errors == []
+    await session.close()

@@ -28,7 +28,7 @@ from .entities import (
 from .errors import AlreadyConnectedError, HomeDisconnectError
 from .keys import OptionKey, ProgramKey, SettingKey, StatusKey
 from .messages import Action, Message, ResponseError
-from .session import RECONNECT_MAX_DELAY, ConnectionState, Session
+from .session import RECONNECT_MAX_DELAY, ConnectErrorCallback, ConnectionState, Session
 from .transport import DEFAULT_HEARTBEAT
 
 if TYPE_CHECKING:
@@ -87,6 +87,7 @@ class Appliance:
         app_name: str,
         app_id: str,
         on_connection_state: ConnectionCallback | None = None,
+        on_connect_error: ConnectErrorCallback | None = None,
         reconnect: bool = True,
         reconnect_max_delay: float = RECONNECT_MAX_DELAY,
         port: int | None = None,
@@ -95,7 +96,7 @@ class Appliance:
     ) -> None:
         """Set up the appliance. Nothing connects until `connect()` or `start()`.
 
-        `reconnect` and `reconnect_max_delay` work as in `Session`.
+        `on_connect_error`, `reconnect` and `reconnect_max_delay` work as in `Session`.
 
         `heartbeat` is the WebSocket ping interval in seconds; `None` turns it off.
         `info` seeds `self.info` (e.g. values stored from an earlier connection); the
@@ -111,6 +112,7 @@ class Appliance:
             app_id=app_id,
             on_message=self._on_message,
             on_state_change=self._on_session_state,
+            on_connect_error=on_connect_error,
             reconnect=reconnect,
             reconnect_max_delay=reconnect_max_delay,
             port=port,
