@@ -249,6 +249,7 @@ class SettingKey(StrEnum):
     DISHCARE_DISHWASHER_FLEX_SPRAY_CUSTOM_FRONT_RIGHT = (
         "Dishcare.Dishwasher.Setting.FlexSpray.Custom.FrontRight"
     )
+    DISHCARE_DISHWASHER_GAP_ILLUMINATION = "Dishcare.Dishwasher.Setting.GapIllumination"
     DISHCARE_DISHWASHER_HOT_WATER = "Dishcare.Dishwasher.Setting.HotWater"
     DISHCARE_DISHWASHER_INFO_LIGHT = "Dishcare.Dishwasher.Setting.InfoLight"
     DISHCARE_DISHWASHER_RINSE_AID = "Dishcare.Dishwasher.Setting.RinseAid"
@@ -299,10 +300,25 @@ class SettingKey(StrEnum):
         "Refrigeration.Common.Setting.ChillerCommon.SetpointTemperatureFahrenheit"
     )
     REFRIGERATION_COMMON_CHILLER_LEFT_HUMIDITY = "Refrigeration.Common.Setting.ChillerLeft.Humidity"
+    REFRIGERATION_COMMON_CHILLER_LEFT_PRESET = "Refrigeration.Common.Setting.ChillerLeft.Preset"
+    REFRIGERATION_COMMON_CHILLER_LEFT_SETPOINT_TEMPERATURE = (
+        "Refrigeration.Common.Setting.ChillerLeft.SetpointTemperature"
+    )
+    REFRIGERATION_COMMON_CHILLER_LEFT_SETPOINT_TEMPERATURE_FAHRENHEIT = (
+        "Refrigeration.Common.Setting.ChillerLeft.SetpointTemperatureFahrenheit"
+    )
     REFRIGERATION_COMMON_CHILLER_RIGHT_HUMIDITY = (
         "Refrigeration.Common.Setting.ChillerRight.Humidity"
     )
+    REFRIGERATION_COMMON_CHILLER_RIGHT_PRESET = "Refrigeration.Common.Setting.ChillerRight.Preset"
+    REFRIGERATION_COMMON_CHILLER_RIGHT_SETPOINT_TEMPERATURE = (
+        "Refrigeration.Common.Setting.ChillerRight.SetpointTemperature"
+    )
+    REFRIGERATION_COMMON_CHILLER_RIGHT_SETPOINT_TEMPERATURE_FAHRENHEIT = (
+        "Refrigeration.Common.Setting.ChillerRight.SetpointTemperatureFahrenheit"
+    )
     REFRIGERATION_COMMON_DISPENSER_ENABLED = "Refrigeration.Common.Setting.Dispenser.Enabled"
+    REFRIGERATION_COMMON_DISPENSER_FUNCTION = "Refrigeration.Common.Setting.Dispenser.Function"
     REFRIGERATION_COMMON_DISPENSER_PARTY_MODE = "Refrigeration.Common.Setting.Dispenser.PartyMode"
     REFRIGERATION_COMMON_DOOR_ASSISTANT_FORCE_FREEZER = (
         "Refrigeration.Common.Setting.Door.AssistantForceFreezer"
@@ -543,6 +559,12 @@ class EventKey(StrEnum):
     REFRIGERATION_COMMON_APPLIANCE_ERROR = "Refrigeration.Common.Event.ApplianceError"
     REFRIGERATION_COMMON_CHILLER_COMMON_TEMPERATURE_ALARM = (
         "Refrigeration.Common.Event.ChillerCommon.TemperatureAlarm"
+    )
+    REFRIGERATION_COMMON_CHILLER_LEFT_TEMPERATURE_ALARM = (
+        "Refrigeration.Common.Event.ChillerLeft.TemperatureAlarm"
+    )
+    REFRIGERATION_COMMON_CHILLER_RIGHT_TEMPERATURE_ALARM = (
+        "Refrigeration.Common.Event.ChillerRight.TemperatureAlarm"
     )
     REFRIGERATION_COMMON_DISPENSER_ICE_EXPIRED = "Refrigeration.Common.Event.Dispenser.IceExpired"
     REFRIGERATION_COMMON_DISPENSER_PARTY_MODE_EMPTY_ICE_HOPPER = (
