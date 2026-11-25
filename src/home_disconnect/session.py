@@ -67,6 +67,7 @@ class ConnectionState(StrEnum):
 
 type MessageCallback = Callable[[Message], Awaitable[None]]
 type StateCallback = Callable[[ConnectionState], Awaitable[None]]
+type ConnectErrorCallback = Callable[[Exception], Awaitable[None]]
 
 
 class Session:
@@ -74,6 +75,8 @@ class Session:
 
     `on_message` gets every message that isn't the response to one of our requests, most
     importantly the appliance's NOTIFY messages. `on_state_change` gets every state change.
+    `on_connect_error` gets the error of every failed attempt to reconnect, or to connect after
+    `start()`, e.g. an `AuthenticationError` when the appliance rejects the key.
     """
 
     def __init__(
@@ -87,6 +90,7 @@ class Session:
         app_id: str,
         on_message: MessageCallback | None = None,
         on_state_change: StateCallback | None = None,
+        on_connect_error: ConnectErrorCallback | None = None,
         reconnect: bool = True,
         reconnect_max_delay: float = RECONNECT_MAX_DELAY,
         port: int | None = None,
@@ -110,6 +114,7 @@ class Session:
         self._app_id = app_id
         self._on_message = on_message
         self._on_state_change = on_state_change
+        self._on_connect_error = on_connect_error
         self._reconnect = reconnect
         self._reconnect_max_delay = reconnect_max_delay
         self._request_timeout = request_timeout
@@ -358,6 +363,7 @@ class Session:
                     delay = min(delay * 2, self._reconnect_max_delay)
                 wait_first = True
                 _LOGGER.debug("Connect failed, retrying in %ss: %s", delay, err)
+                await self._report_connect_error(err)
                 continue
             # A retry_now() during the successful attempt mustn't cut the next drop's first wait.
             self._retry_now.clear()
@@ -374,6 +380,14 @@ class Session:
         finally:
             self._retry_now.clear()
         return True
+
+    async def _report_connect_error(self, err: Exception) -> None:
+        if self._on_connect_error is None:
+            return
+        try:
+            await self._on_connect_error(err)
+        except Exception:
+            _LOGGER.exception("Error in connect error callback for %r", err)
 
     async def _set_state(self, state: ConnectionState) -> None:
         if state is self.state:

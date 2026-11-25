@@ -28,7 +28,7 @@ from .entities import (
 from .errors import AlreadyConnectedError, HomeDisconnectError
 from .keys import OptionKey, ProgramKey, SettingKey, StatusKey
 from .messages import Action, Message, ResponseError
-from .session import RECONNECT_MAX_DELAY, ConnectionState, Session
+from .session import RECONNECT_MAX_DELAY, ConnectErrorCallback, ConnectionState, Session
 from .transport import DEFAULT_HEARTBEAT
 
 if TYPE_CHECKING:
@@ -87,6 +87,7 @@ class Appliance:
         app_name: str,
         app_id: str,
         on_connection_state: ConnectionCallback | None = None,
+        on_connect_error: ConnectErrorCallback | None = None,
         reconnect: bool = True,
         reconnect_max_delay: float = RECONNECT_MAX_DELAY,
         port: int | None = None,
@@ -95,7 +96,7 @@ class Appliance:
     ) -> None:
         """Set up the appliance. Nothing connects until `connect()` or `start()`.
 
-        `reconnect` and `reconnect_max_delay` work as in `Session`.
+        `on_connect_error`, `reconnect` and `reconnect_max_delay` work as in `Session`.
 
         `heartbeat` is the WebSocket ping interval in seconds; `None` turns it off.
         `info` seeds `self.info` (e.g. values stored from an earlier connection); the
@@ -111,6 +112,7 @@ class Appliance:
             app_id=app_id,
             on_message=self._on_message,
             on_state_change=self._on_session_state,
+            on_connect_error=on_connect_error,
             reconnect=reconnect,
             reconnect_max_delay=reconnect_max_delay,
             port=port,
@@ -212,7 +214,8 @@ class Appliance:
         """Start a program (by default the selected one) with the right set of options.
 
         On appliances that want every option in a program write (`full_option_set`), that's
-        the complete set; otherwise the options with a known value. `options` go on top (e.g.
+        the complete set; otherwise the options with a known value, except the start and finish
+        delays, which can be left over from the previous program. `options` go on top (e.g.
         `{"BSH.Common.Option.FinishInRelative": 3600}` for a delayed start).
         `include_current_options=False` sends only `options` on appliances that don't need a
         full set (a hood's fan, for one, starts its venting program without them).
@@ -254,7 +257,7 @@ class Appliance:
         if program.full_option_set:
             current = program.full_option_values()
         elif include_current_options:
-            current = program.known_option_values()
+            current = program.start_option_values()
         else:
             current = {}
         await program.start(options, raw_options=current)
@@ -326,7 +329,7 @@ class Appliance:
             self._ensure_selectable(root)
             await program.select()
         elif program.execution is Execution.START_ONLY:
-            await program.start(raw_options=program.known_option_values())
+            await program.start(raw_options=program.start_option_values())
         else:
             msg = f"{program.name} can't be selected or started (execution {program.execution})"
             raise AccessError(msg)
