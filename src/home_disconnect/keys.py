@@ -183,6 +183,7 @@ class SettingKey(StrEnum):
     COOKING_COMMON_SIGNAL_VOLUME = "Cooking.Common.Setting.SignalVolume"
     COOKING_HOB_AUTOMATIC_KEY_LOCK = "Cooking.Hob.Setting.AutomaticKeyLock"
     COOKING_HOB_AUTOMATIC_TIMER = "Cooking.Hob.Setting.AutomaticTimer"
+    COOKING_HOB_AUTOMATIC_ZONE_SELECTION = "Cooking.Hob.Setting.AutomaticZoneSelection"
     COOKING_HOB_BRIDGE_ZONE_MODE = "Cooking.Hob.Setting.BridgeZoneMode"
     COOKING_HOB_BUZZER_BEEP_LEVEL = "Cooking.Hob.Setting.BuzzerBeepLevel"
     COOKING_HOB_END_TIMER_SIGNALDURATION = "Cooking.Hob.Setting.EndTimerSignalduration"
@@ -192,6 +193,7 @@ class SettingKey(StrEnum):
     COOKING_HOB_HOOD_AUTOMATIC_LIGHT_ON = "Cooking.Hob.Setting.HoodAutomaticLightOn"
     COOKING_HOB_HOOD_AUTOMATIC_START = "Cooking.Hob.Setting.HoodAutomaticStart"
     COOKING_HOB_POWER_MANAGEMENT = "Cooking.Hob.Setting.PowerManagement"
+    COOKING_HOB_TIMER_SELECTION = "Cooking.Hob.Setting.TimerSelection"
     COOKING_HOB_VENTILATION = "Cooking.Hob.Setting.Ventilation"
     COOKING_HOOD_BOOST_TIME = "Cooking.Hood.Setting.BoostTime"
     COOKING_HOOD_CARBON_FILTER_TYPE = "Cooking.Hood.Setting.CarbonFilterType"
@@ -483,7 +485,13 @@ class EventKey(StrEnum):
         "ConsumerProducts.CoffeeMaker.Event.WaterTankNotInserted"
     )
     COOKING_COMMON_APPLIANCE_MODULE_ERROR = "Cooking.Common.Event.ApplianceModuleError"
+    COOKING_COMMON_APPLIANCE_OVERHEATED = "Cooking.Common.Event.ApplianceOverheated"
     COOKING_COMMON_PREHEAT_FINISHED = "Cooking.Common.Event.PreheatFinished"
+    COOKING_HOB_ERROR_IABO_TEMPERATURE_TOO_HIGH = "Cooking.Hob.Event.Error.IABOTemperatureTooHigh"
+    COOKING_HOB_ERROR_OPERATING_TIME_LIMIT_REACHED = (
+        "Cooking.Hob.Event.Error.OperatingTimeLimitReached"
+    )
+    COOKING_HOB_ERROR_OPERATING_VOLTAGE_ERROR = "Cooking.Hob.Event.Error.OperatingVoltageError"
     COOKING_OVEN_CAVITY = "Cooking.Oven.Event.Cavity"
     COOKING_OVEN_CAVITY_HEATUP = "Cooking.Oven.Event.CavityHeatup"
     COOKING_OVEN_CAVITY_TEMPERATURE_TOO_HIGH = "Cooking.Oven.Event.CavityTemperatureTooHigh"
