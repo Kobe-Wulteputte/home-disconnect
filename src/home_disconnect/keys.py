@@ -684,6 +684,7 @@ class OptionKey(StrEnum):
     DISHCARE_DISHWASHER_PRETREATMENT = "Dishcare.Dishwasher.Option.Pretreatment"
     DISHCARE_DISHWASHER_SANITATION_UC = "Dishcare.Dishwasher.Option.SanitationUC"
     DISHCARE_DISHWASHER_SILENCE_ON_DEMAND = "Dishcare.Dishwasher.Option.SilenceOnDemand"
+    DISHCARE_DISHWASHER_VARIO_SPEED = "Dishcare.Dishwasher.Option.VarioSpeed"
     DISHCARE_DISHWASHER_VARIO_SPEED_PLUS = "Dishcare.Dishwasher.Option.VarioSpeedPlus"
     DISHCARE_DISHWASHER_ZEOLITE_DRY = "Dishcare.Dishwasher.Option.ZeoliteDry"
     LAUNDRY_CARE_COMMON_HYGIENIC_STEAM_INTENSITY = (
