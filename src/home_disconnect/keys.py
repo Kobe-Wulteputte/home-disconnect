@@ -531,10 +531,12 @@ class EventKey(StrEnum):
     LAUNDRY_CARE_COMMON_DOOR_LOCK_WATER_LEVEL_TOO_HIGH = (
         "LaundryCare.Common.Event.DoorLock.WaterLevelTooHigh"
     )
+    LAUNDRY_CARE_COMMON_DOOR_OPEN = "LaundryCare.Common.Event.DoorOpen"
     LAUNDRY_CARE_COMMON_DOOR_NOT_LOCKABLE = "LaundryCare.Common.Event.DoorNotLockable"
     LAUNDRY_CARE_COMMON_DOOR_NOT_UNLOCKABLE = "LaundryCare.Common.Event.DoorNotUnlockable"
     LAUNDRY_CARE_COMMON_FATAL_ERROR_OCCURED = "LaundryCare.Common.Event.FatalErrorOccured"
     LAUNDRY_CARE_COMMON_FOAM_DETECTION = "LaundryCare.Common.Event.FoamDetection"
+    LAUNDRY_CARE_COMMON_SUPPLY_POWER_BLACKED_OUT = "LaundryCare.Common.Event.SupplyPower.BlackedOut"
     LAUNDRY_CARE_COMMON_SUPPLY_POWER_SUPPLY_VOLTAGE_TOO_LOW = (
         "LaundryCare.Common.Event.SupplyPower.SupplyVoltageTooLow"
     )
@@ -554,6 +556,12 @@ class EventKey(StrEnum):
     LAUNDRY_CARE_DRYER_LINT_FILTER_FULL = "LaundryCare.Dryer.Event.LintFilterFull"
     LAUNDRY_CARE_DRYER_MAINTENANCE_REMIND = "LaundryCare.Dryer.Event.Maintenance.Remind"
     LAUNDRY_CARE_DRYER_REFRESHER_CONTAINER_EMPTY = "LaundryCare.Dryer.Event.RefresherContainerEmpty"
+    LAUNDRY_CARE_WASHER_CIRCULATION_PUMP_ERROR_LOCKED_ROTOR = (
+        "LaundryCare.Washer.Event.Circulation.Pump.ErrorLockedRotor"
+    )
+    LAUNDRY_CARE_WASHER_CIRCULATION_PUMP_ERROR_MAX_TORQUE = (
+        "LaundryCare.Washer.Event.Circulation.Pump.ErrorMaxTorque"
+    )
     LAUNDRY_CARE_WASHER_DRUM_CLEAN_REMINDER = "LaundryCare.Washer.Event.DrumCleanReminder"
     LAUNDRY_CARE_WASHER_I_DOS_I_DOS_OPEN_TRAY = "LaundryCare.Washer.Event.IDos.IDosOpenTray"
     LAUNDRY_CARE_WASHER_I_DOS_1_FILL_LEVEL_POOR = "LaundryCare.Washer.Event.IDos1FillLevelPoor"
@@ -564,6 +572,9 @@ class EventKey(StrEnum):
         "LaundryCare.Washer.Event.ReleaseRinseHoldPending"
     )
     LAUNDRY_CARE_WASHER_SPIN_SPIN_ABORT = "LaundryCare.Washer.Event.Spin.SpinAbort"
+    LAUNDRY_CARE_WASHER_WATER_SUPPLY_WARM_WATER_ABSENT = (
+        "LaundryCare.Washer.Event.WaterSupply.WarmWaterAbsent"
+    )
     REFRIGERATION_COMMON_APPLIANCE_ERROR = "Refrigeration.Common.Event.ApplianceError"
     REFRIGERATION_COMMON_CHILLER_COMMON_TEMPERATURE_ALARM = (
         "Refrigeration.Common.Event.ChillerCommon.TemperatureAlarm"
