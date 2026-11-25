@@ -183,6 +183,7 @@ class SettingKey(StrEnum):
     COOKING_COMMON_SIGNAL_VOLUME = "Cooking.Common.Setting.SignalVolume"
     COOKING_HOB_AUTOMATIC_KEY_LOCK = "Cooking.Hob.Setting.AutomaticKeyLock"
     COOKING_HOB_AUTOMATIC_TIMER = "Cooking.Hob.Setting.AutomaticTimer"
+    COOKING_HOB_AUTOMATIC_ZONE_SELECTION = "Cooking.Hob.Setting.AutomaticZoneSelection"
     COOKING_HOB_BRIDGE_ZONE_MODE = "Cooking.Hob.Setting.BridgeZoneMode"
     COOKING_HOB_BUZZER_BEEP_LEVEL = "Cooking.Hob.Setting.BuzzerBeepLevel"
     COOKING_HOB_END_TIMER_SIGNALDURATION = "Cooking.Hob.Setting.EndTimerSignalduration"
@@ -192,6 +193,7 @@ class SettingKey(StrEnum):
     COOKING_HOB_HOOD_AUTOMATIC_LIGHT_ON = "Cooking.Hob.Setting.HoodAutomaticLightOn"
     COOKING_HOB_HOOD_AUTOMATIC_START = "Cooking.Hob.Setting.HoodAutomaticStart"
     COOKING_HOB_POWER_MANAGEMENT = "Cooking.Hob.Setting.PowerManagement"
+    COOKING_HOB_TIMER_SELECTION = "Cooking.Hob.Setting.TimerSelection"
     COOKING_HOB_VENTILATION = "Cooking.Hob.Setting.Ventilation"
     COOKING_HOOD_BOOST_TIME = "Cooking.Hood.Setting.BoostTime"
     COOKING_HOOD_CARBON_FILTER_TYPE = "Cooking.Hood.Setting.CarbonFilterType"
@@ -483,7 +485,13 @@ class EventKey(StrEnum):
         "ConsumerProducts.CoffeeMaker.Event.WaterTankNotInserted"
     )
     COOKING_COMMON_APPLIANCE_MODULE_ERROR = "Cooking.Common.Event.ApplianceModuleError"
+    COOKING_COMMON_APPLIANCE_OVERHEATED = "Cooking.Common.Event.ApplianceOverheated"
     COOKING_COMMON_PREHEAT_FINISHED = "Cooking.Common.Event.PreheatFinished"
+    COOKING_HOB_ERROR_IABO_TEMPERATURE_TOO_HIGH = "Cooking.Hob.Event.Error.IABOTemperatureTooHigh"
+    COOKING_HOB_ERROR_OPERATING_TIME_LIMIT_REACHED = (
+        "Cooking.Hob.Event.Error.OperatingTimeLimitReached"
+    )
+    COOKING_HOB_ERROR_OPERATING_VOLTAGE_ERROR = "Cooking.Hob.Event.Error.OperatingVoltageError"
     COOKING_OVEN_CAVITY = "Cooking.Oven.Event.Cavity"
     COOKING_OVEN_CAVITY_HEATUP = "Cooking.Oven.Event.CavityHeatup"
     COOKING_OVEN_CAVITY_TEMPERATURE_TOO_HIGH = "Cooking.Oven.Event.CavityTemperatureTooHigh"
@@ -523,10 +531,12 @@ class EventKey(StrEnum):
     LAUNDRY_CARE_COMMON_DOOR_LOCK_WATER_LEVEL_TOO_HIGH = (
         "LaundryCare.Common.Event.DoorLock.WaterLevelTooHigh"
     )
+    LAUNDRY_CARE_COMMON_DOOR_OPEN = "LaundryCare.Common.Event.DoorOpen"
     LAUNDRY_CARE_COMMON_DOOR_NOT_LOCKABLE = "LaundryCare.Common.Event.DoorNotLockable"
     LAUNDRY_CARE_COMMON_DOOR_NOT_UNLOCKABLE = "LaundryCare.Common.Event.DoorNotUnlockable"
     LAUNDRY_CARE_COMMON_FATAL_ERROR_OCCURED = "LaundryCare.Common.Event.FatalErrorOccured"
     LAUNDRY_CARE_COMMON_FOAM_DETECTION = "LaundryCare.Common.Event.FoamDetection"
+    LAUNDRY_CARE_COMMON_SUPPLY_POWER_BLACKED_OUT = "LaundryCare.Common.Event.SupplyPower.BlackedOut"
     LAUNDRY_CARE_COMMON_SUPPLY_POWER_SUPPLY_VOLTAGE_TOO_LOW = (
         "LaundryCare.Common.Event.SupplyPower.SupplyVoltageTooLow"
     )
@@ -546,6 +556,12 @@ class EventKey(StrEnum):
     LAUNDRY_CARE_DRYER_LINT_FILTER_FULL = "LaundryCare.Dryer.Event.LintFilterFull"
     LAUNDRY_CARE_DRYER_MAINTENANCE_REMIND = "LaundryCare.Dryer.Event.Maintenance.Remind"
     LAUNDRY_CARE_DRYER_REFRESHER_CONTAINER_EMPTY = "LaundryCare.Dryer.Event.RefresherContainerEmpty"
+    LAUNDRY_CARE_WASHER_CIRCULATION_PUMP_ERROR_LOCKED_ROTOR = (
+        "LaundryCare.Washer.Event.Circulation.Pump.ErrorLockedRotor"
+    )
+    LAUNDRY_CARE_WASHER_CIRCULATION_PUMP_ERROR_MAX_TORQUE = (
+        "LaundryCare.Washer.Event.Circulation.Pump.ErrorMaxTorque"
+    )
     LAUNDRY_CARE_WASHER_DRUM_CLEAN_REMINDER = "LaundryCare.Washer.Event.DrumCleanReminder"
     LAUNDRY_CARE_WASHER_I_DOS_I_DOS_OPEN_TRAY = "LaundryCare.Washer.Event.IDos.IDosOpenTray"
     LAUNDRY_CARE_WASHER_I_DOS_1_FILL_LEVEL_POOR = "LaundryCare.Washer.Event.IDos1FillLevelPoor"
@@ -556,6 +572,9 @@ class EventKey(StrEnum):
         "LaundryCare.Washer.Event.ReleaseRinseHoldPending"
     )
     LAUNDRY_CARE_WASHER_SPIN_SPIN_ABORT = "LaundryCare.Washer.Event.Spin.SpinAbort"
+    LAUNDRY_CARE_WASHER_WATER_SUPPLY_WARM_WATER_ABSENT = (
+        "LaundryCare.Washer.Event.WaterSupply.WarmWaterAbsent"
+    )
     REFRIGERATION_COMMON_APPLIANCE_ERROR = "Refrigeration.Common.Event.ApplianceError"
     REFRIGERATION_COMMON_CHILLER_COMMON_TEMPERATURE_ALARM = (
         "Refrigeration.Common.Event.ChillerCommon.TemperatureAlarm"
@@ -684,6 +703,7 @@ class OptionKey(StrEnum):
     DISHCARE_DISHWASHER_PRETREATMENT = "Dishcare.Dishwasher.Option.Pretreatment"
     DISHCARE_DISHWASHER_SANITATION_UC = "Dishcare.Dishwasher.Option.SanitationUC"
     DISHCARE_DISHWASHER_SILENCE_ON_DEMAND = "Dishcare.Dishwasher.Option.SilenceOnDemand"
+    DISHCARE_DISHWASHER_VARIO_SPEED = "Dishcare.Dishwasher.Option.VarioSpeed"
     DISHCARE_DISHWASHER_VARIO_SPEED_PLUS = "Dishcare.Dishwasher.Option.VarioSpeedPlus"
     DISHCARE_DISHWASHER_ZEOLITE_DRY = "Dishcare.Dishwasher.Option.ZeoliteDry"
     LAUNDRY_CARE_COMMON_HYGIENIC_STEAM_INTENSITY = (
